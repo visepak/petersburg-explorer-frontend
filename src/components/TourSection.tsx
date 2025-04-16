@@ -1,6 +1,6 @@
-
 import React, { useState, useEffect } from 'react';
 import TourCard, { Tour } from './TourCard';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const TourSection = () => {
   const [activeFilter, setActiveFilter] = useState({
@@ -107,14 +107,14 @@ const TourSection = () => {
       [filterType]: value
     }));
   };
-  
+
   const FilterButton = ({ type, value, currentValue, label }: { type: string, value: string, currentValue: string, label: string }) => (
-    <button 
+    <button
       onClick={() => handleFilterChange(type, value)}
-      className={`px-4 py-2 rounded-md text-sm ${
-        currentValue === value 
-          ? 'bg-petersburg-blue text-white' 
-          : 'bg-white text-petersburg-dark hover:bg-gray-100'
+      className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+        currentValue === value
+          ? 'bg-petersburg-blue text-white'
+          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
       }`}
     >
       {label}
@@ -122,57 +122,93 @@ const TourSection = () => {
   );
 
   return (
-    <section id="tours" className="section bg-gray-50">
+    <section id="tours" className="py-20 bg-gray-50">
       <div className="container">
-        <h2 className="text-center text-petersburg-dark mb-12">Наши экскурсии</h2>
-        
-        <div className="mb-8 space-y-4">
-          <div className="flex flex-col sm:flex-row gap-2 justify-center">
-            <h4 className="font-bold mr-2 text-petersburg-dark self-center">Тип экскурсии:</h4>
-            <div className="flex flex-wrap gap-2">
-              <FilterButton type="type" value="all" currentValue={activeFilter.type} label="Все" />
-              <FilterButton type="type" value="walking" currentValue={activeFilter.type} label="Пешеходные" />
-              <FilterButton type="type" value="bus" currentValue={activeFilter.type} label="Автобусные" />
-              <FilterButton type="type" value="boat" currentValue={activeFilter.type} label="Водные" />
-            </div>
+        <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+          Наши экскурсии
+        </h2>
+
+        <div className="mb-8 flex flex-wrap gap-4 justify-center">
+          <div className="flex flex-wrap gap-2">
+            <FilterButton
+              type="type"
+              value="all"
+              currentValue={activeFilter.type}
+              label="Все типы"
+            />
+            <FilterButton
+              type="type"
+              value="walking"
+              currentValue={activeFilter.type}
+              label="Пешие"
+            />
+            <FilterButton
+              type="type"
+              value="bus"
+              currentValue={activeFilter.type}
+              label="Автобусные"
+            />
+            <FilterButton
+              type="type"
+              value="boat"
+              currentValue={activeFilter.type}
+              label="Водные"
+            />
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-2 justify-center">
-            <h4 className="font-bold mr-2 text-petersburg-dark self-center">Продолжительность:</h4>
-            <div className="flex flex-wrap gap-2">
-              <FilterButton type="duration" value="all" currentValue={activeFilter.duration} label="Любая" />
-              <FilterButton type="duration" value="short" currentValue={activeFilter.duration} label="2 часа" />
-              <FilterButton type="duration" value="medium" currentValue={activeFilter.duration} label="4 часа" />
-              <FilterButton type="duration" value="long" currentValue={activeFilter.duration} label="6+ часов" />
-            </div>
+          <div className="flex flex-wrap gap-2">
+            <FilterButton
+              type="duration"
+              value="all"
+              currentValue={activeFilter.duration}
+              label="Любая длительность"
+            />
+            <FilterButton
+              type="duration"
+              value="short"
+              currentValue={activeFilter.duration}
+              label="2 часа"
+            />
+            <FilterButton
+              type="duration"
+              value="medium"
+              currentValue={activeFilter.duration}
+              label="4 часа"
+            />
+            <FilterButton
+              type="duration"
+              value="long"
+              currentValue={activeFilter.duration}
+              label="6 часов"
+            />
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-2 justify-center">
-            <h4 className="font-bold mr-2 text-petersburg-dark self-center">Цена:</h4>
-            <div className="flex flex-wrap gap-2">
-              <FilterButton type="price" value="all" currentValue={activeFilter.price} label="Любая" />
-              <FilterButton type="price" value="budget" currentValue={activeFilter.price} label="Бюджетная" />
-              <FilterButton type="price" value="premium" currentValue={activeFilter.price} label="Премиум" />
-            </div>
+          <div className="flex flex-wrap gap-2">
+            <FilterButton
+              type="price"
+              value="all"
+              currentValue={activeFilter.price}
+              label="Любая цена"
+            />
+            <FilterButton
+              type="price"
+              value="budget"
+              currentValue={activeFilter.price}
+              label="Бюджетные"
+            />
+            <FilterButton
+              type="price"
+              value="premium"
+              currentValue={activeFilter.price}
+              label="Премиум"
+            />
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredTours.length > 0 ? (
-            filteredTours.map(tour => (
-              <TourCard key={tour.id} tour={tour} />
-            ))
-          ) : (
-            <div className="col-span-full text-center py-8 text-gray-500">
-              <p>К сожалению, экскурсий по заданным фильтрам не найдено</p>
-              <button 
-                onClick={() => setActiveFilter({ type: 'all', duration: 'all', price: 'all' })}
-                className="mt-4 btn btn-primary px-4 py-2"
-              >
-                Сбросить фильтры
-              </button>
-            </div>
-          )}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filteredTours.map(tour => (
+            <TourCard key={tour.id} tour={tour} />
+          ))}
         </div>
       </div>
     </section>
